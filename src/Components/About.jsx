@@ -1,84 +1,62 @@
-import React from "react";
 import { motion } from "framer-motion";
-import Profile from "../assets/Shreekantha.jpg";
+import { Brain, Cpu, Rocket, Sparkles } from "lucide-react";
+import Profile from "../assets/Profile.png";
+import SectionHeading from "../components/SectionHeading";
+import GlassCard from "../components/GlassCard";
+
+const highPoints = [
+  { title: "Product-minded", description: "I care about user flow, accessibility, and business impact as much as the codebase itself.", icon: Rocket },
+  { title: "Fast learner", description: "I thrive in modern stacks and enjoy turning feedback into better UI and architecture decisions.", icon: Brain },
+  { title: "Execution focused", description: "From design systems to deployment, I value clean delivery and thoughtful iteration.", icon: Cpu },
+];
 
 const About = () => {
   return (
-    <div className="px-1 py-1 border-b">
-      <motion.h1
-        whileInView={{ opacity: 1, y: 0 }}
-        initial={{ opacity: 0, y: -50 }}
-        transition={{ duration: 1 }}
-        className="mb-8 text-center text-4xl font-bold text-gray-800 dark:text-white"
-      >
-        👨‍💻 About<span className="text-neutral-500"> Me</span>
-      </motion.h1>
+    <section className="py-16 sm:py-20" id="about">
+      <SectionHeading eyebrow="About" title="Building thoughtful interfaces and reliable systems" subtitle="I combine strong frontend craft with a solid MERN foundation to ship polished experiences that feel effortless to use." />
 
-      <div className="max-w-screen-xl mx-auto flex flex-col-reverse lg:flex-row items-center gap-20 p-6 lg:p-12  rounded-2xl shadow-lg">
-        {/* Image Section */}
-        <motion.div
-          whileInView={{ opacity: 1, scale: 1 }}
-          initial={{ opacity: 0, scale: 0.8 }}
-          transition={{ duration: 1 }}
-          className="w-60 h-60 md:w-72 md:h-72 rounded-full overflow-hidden border-4 border-neutral-600 shadow-md"
-        >
-          <img
-            src={Profile}
-            alt="Sreekantha"
-            className="w-full h-full object-cover"
-          />
+      <div className="mt-12 grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+        <motion.div whileInView={{ opacity: 1, x: 0 }} initial={{ opacity: 0, x: -24 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="flex justify-center lg:justify-start">
+          <div className="relative">
+            <div className="absolute inset-0 rounded-[32px] bg-gradient-to-r from-cyan-500/30 via-violet-500/20 to-fuchsia-500/30 blur-2xl" />
+            <img src={Profile} alt="Shreekantha Kudlur" className="relative h-[320px] w-[280px] rounded-[32px] object-cover shadow-[0_30px_90px_rgba(15,23,42,0.2)] sm:h-[380px] sm:w-[320px]" />
+          </div>
         </motion.div>
 
-        {/* Text Section */}
-        <motion.div
-          whileInView={{ opacity: 1, x: 0 }}
-          initial={{ opacity: 0, x: -100 }}
-          transition={{ duration: 1 }}
-          className="w-full lg:w-2/3 text-center lg:text-left"
-        >
-          {/* <p className="text-lg text-gray-700 dark:text-neutral-300 leading-relaxed tracking-wide">
-            I'm Shreekantha Kudlur, a dedicated and enthusiastic Full Stack Developer with a deep interest in creating dynamic, user-friendly, and scalable web applications. <br />I have hands-on experience with the MERN Stack (MongoDB, Express.js, React.js, Node.js) and enjoy working across both frontend and backend. <br /> I take pride in writing clean, maintainable code and continuously improving my skills by building real-world projects. <br /> As a fresher, I’ve focused on gaining strong foundational knowledge in: <br /> 🌐 Frontend:       React.js, HTML5, CSS3, JavaScript, Tailwind CSS <br /> 🛠️ Backend: Node.js, Express.js, MongoDB, RESTful APIs <br /> ⚙️ Tools & Deployment: Git, GitHub, AWS, Vercel, Netlify I'm always eager to learn, collaborate, and contribute to impactful tech solutions. <br /> My goal is to join a team where I can grow, share my ideas, and help build great products. <br /> 📫 Let’s connect and create something amazing together!
-          </p> */}
+        <motion.div whileInView={{ opacity: 1, y: 0 }} initial={{ opacity: 0, y: 24 }} viewport={{ once: true }} transition={{ duration: 0.6 }} className="space-y-6">
+          <GlassCard>
+            <p className="text-lg leading-8 text-slate-700 dark:text-slate-200">
+              I&apos;m <span className="font-semibold text-slate-900 dark:text-white">Shreekantha Kudlur</span>, a MERN stack developer with a strong eye for detail and a passion for creating interfaces that feel premium, intuitive, and dependable. I enjoy translating product goals into thoughtful React experiences backed by clean APIs and scalable architecture.
+            </p>
+          </GlassCard>
 
-          <p>
-            I'm <strong>Shreekantha Kudlur</strong>, a dedicated and
-            enthusiastic <strong>Full Stack Developer</strong> with a deep
-            interest in creating dynamic, user-friendly, and scalable web
-            applications.
-          </p>
-          <p>
-            I have hands-on experience with the <strong>MERN Stack</strong>{" "}
-            (MongoDB, Express.js, React.js, Node.js) and enjoy working across
-            both frontend and backend. I take pride in writing clean,
-            maintainable code and continuously improving my skills by building
-            real-world projects.
-          </p>
-          <p>
-          As a fresher, I’ve focused on gaining strong foundational knowledge in:
-          </p>
-          <ul>
-            <li>
-              🌐 <strong>Frontend:</strong> React.js, HTML5, CSS3, JavaScript,
-              Tailwind CSS
-            </li>
-            <li>
-              🛠️ <strong>Backend:</strong> Node.js, Express.js, MongoDB, RESTful
-              APIs
-            </li>
-            <li>
-              ⚙️ <strong>Tools & Deployment:</strong> Git, GitHub, AWS, Vercel,
-              Netlify
-            </li>
-          </ul>
-          <p>
-            I'm always eager to learn, collaborate, and contribute to impactful
-            tech solutions. My goal is to join a team where I can grow, share my
-            ideas, and help build great products.
-          </p>
-          <p>📫 Let’s connect and create something amazing together!</p>
+          <div className="grid gap-4 md:grid-cols-3">
+            {highPoints.map((item) => {
+              const Icon = item.icon;
+              return (
+                <GlassCard key={item.title} className="space-y-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-violet-500 text-white">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{item.title}</h3>
+                  <p className="text-sm leading-7 text-slate-600 dark:text-slate-300">{item.description}</p>
+                </GlassCard>
+              );
+            })}
+          </div>
+
+          <GlassCard className="flex items-start gap-3">
+            <div className="rounded-full bg-cyan-500/10 p-2 text-cyan-600 dark:text-cyan-300">
+              <Sparkles className="h-5 w-5" />
+            </div>
+            <p className="text-sm leading-7 text-slate-600 dark:text-slate-300">
+              My goal is to join teams that care about design quality, clean collaboration, and shipping meaningful experiences with measurable impact.
+            </p>
+          </GlassCard>
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
+
 export default About;

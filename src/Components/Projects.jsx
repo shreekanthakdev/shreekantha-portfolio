@@ -1,252 +1,122 @@
-import React, { useState, useEffect } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+import { ArrowRight, Github, Play, X } from "lucide-react";
 import { PROJECTS } from "../constants";
-import { motion, AnimatePresence } from "framer-motion";
-
-const allTechs = [
-  "All",
-  ...new Set(PROJECTS.flatMap((project) => project.technologies)),
-];
+import SectionHeading from "../components/SectionHeading";
+import GlassCard from "../components/GlassCard";
 
 const Projects = () => {
   const [selectedTech, setSelectedTech] = useState("All");
   const [modalProject, setModalProject] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const filteredProjects =
-    selectedTech === "All"
-      ? PROJECTS
-      : PROJECTS.filter((project) =>
-          project.technologies.includes(selectedTech)
-        );
+  const allTechs = useMemo(() => ["All", ...new Set(PROJECTS.flatMap((project) => project.technologies))], []);
 
-  const openModal = (project) => {
-    setModalProject(project);
-    setCurrentImageIndex(0);
-  };
-
-  const nextImage = () => {
-    setCurrentImageIndex((prev) =>
-      prev === modalProject.images.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const prevImage = () => {
-    setCurrentImageIndex((prev) =>
-      prev === 0 ? modalProject.images.length - 1 : prev - 1
-    );
-  };
-
-  const handleKeyDown = (e) => {
-    if (!modalProject) return;
-    if (e.key === "Escape") setModalProject(null);
-    if (e.key === "ArrowRight") nextImage();
-    if (e.key === "ArrowLeft") prevImage();
-  };
+  const filteredProjects = useMemo(
+    () => (selectedTech === "All" ? PROJECTS : PROJECTS.filter((project) => project.technologies.includes(selectedTech))),
+    [selectedTech]
+  );
 
   useEffect(() => {
+    if (!modalProject) return;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setModalProject(null);
+      if (event.key === "ArrowRight") setCurrentImageIndex((prev) => (prev === modalProject.images.length - 1 ? 0 : prev + 1));
+      if (event.key === "ArrowLeft") setCurrentImageIndex((prev) => (prev === 0 ? modalProject.images.length - 1 : prev - 1));
+    };
+
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [modalProject]);
 
   return (
-    <div className="border-b border-neutral-900 pb-20">
-      <motion.h1
-        whileInView={{ opacity: 1, y: 0 }}
-        initial={{ opacity: 0, y: -100 }}
-        transition={{ duration: 1.5 }}
-        className="my-8 text-center text-4xl font-bold"
-      >
-        Projects
-      </motion.h1>
+    <section className="py-16 sm:py-20" id="projects">
+      <SectionHeading eyebrow="Projects" title="Selected work with measurable product value" subtitle="Each project reflects a blend of polished interfaces, real-world data handling, and a thoughtful development process." />
 
-      {/* Filter buttons */}
-      <div className="flex flex-wrap justify-center gap-4 mb-12">
+      <div className="mt-8 flex flex-wrap justify-center gap-3">
         {allTechs.map((tech) => (
-          <button
-            key={tech}
-            onClick={() => setSelectedTech(tech)}
-            className={`px-4 py-2 rounded font-semibold transition ${
-              selectedTech === tech
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 dark:bg-gray-700 dark:text-white hover:bg-gray-300"
-            }`}
-          >
+          <button key={tech} type="button" onClick={() => setSelectedTech(tech)} className={`rounded-full px-4 py-2 text-sm font-medium transition ${selectedTech === tech ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900" : "border border-slate-300 bg-white/70 text-slate-700 hover:border-cyan-500 hover:text-cyan-600 dark:border-slate-700 dark:bg-slate-900/70 dark:text-slate-200"}`}>
             {tech}
           </button>
         ))}
       </div>
 
-      {/* Zigzag Layout */}
-      <div className="space-y-16 px-4">
-        {filteredProjects.map((project, index) => {
-          const isEven = index % 2 === 0;
-          return (
-            <motion.div
-              key={index}
-              whileInView={{ opacity: 1, y: 0 }}
-              initial={{ opacity: 0, y: 50 }}
-              transition={{ duration: 1 }}
-              className={`flex flex-col md:flex-row ${
-                isEven ? "md:flex-row" : "md:flex-row-reverse"
-              } items-center gap-10 cursor-pointer`}
-              onClick={() => openModal(project)}
-            >
-              <img
-                src={project.images[0]}
-                alt={project.title}
-                className="w-full md:w-1/2 rounded-xl shadow-md hover:shadow-xl transition object-cover h-72"
-              />
-              <div className="w-full md:w-1/2 space-y-4">
-                <h3 className="text-2xl font-bold">{project.title}</h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-300">
-                  {project.description.length > 180
-                    ? project.description.slice(0, 180) + "..."
-                    : project.description}
-                </p>
+      <div className="mt-10 grid gap-6 lg:grid-cols-2">
+        {filteredProjects.map((project, index) => (
+          <motion.div key={project.title} initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: index * 0.08 }}>
+            <GlassCard className="flex h-full flex-col overflow-hidden p-0">
+              <img src={project.images[0]} alt={project.title} className="h-56 w-full object-cover" />
+              <div className="flex flex-1 flex-col p-6">
                 <div className="flex flex-wrap gap-2">
-                  {project.technologies.map((tech, idx) => (
-                    <span
-                      key={idx}
-                      className="text-xs font-bold text-blue-800 bg-neutral-200 rounded px-2 py-1"
-                    >
+                  {project.technologies.map((tech) => (
+                    <span key={tech} className="rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-cyan-700 dark:text-cyan-300">
                       {tech}
                     </span>
                   ))}
                 </div>
-                <div className="flex gap-2">
-                  <a
-                    href={project.livelink}
-                    onClick={(e) => e.stopPropagation()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                  >
-                    Live Demo
+                <h3 className="mt-4 text-2xl font-semibold text-slate-900 dark:text-white">{project.title}</h3>
+                <p className="mt-3 flex-1 text-sm leading-7 text-slate-600 dark:text-slate-300">{project.description}</p>
+                <div className="mt-5 flex flex-wrap gap-3">
+                  <button type="button" onClick={() => { setModalProject(project); setCurrentImageIndex(0); }} className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900">
+                    View Gallery <Play className="h-4 w-4" />
+                  </button>
+                  <a href={project.livelink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-cyan-500 hover:text-cyan-600 dark:border-slate-700 dark:text-slate-200">
+                    Live Demo <ArrowRight className="h-4 w-4" />
                   </a>
-                  <a
-                    href={project.repolink}
-                    onClick={(e) => e.stopPropagation()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm px-3 py-1 bg-gray-800 text-white rounded hover:bg-gray-900 transition"
-                  >
-                    GitHub
+                  <a href={project.repolink} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-cyan-500 hover:text-cyan-600 dark:border-slate-700 dark:text-slate-200">
+                    <Github className="h-4 w-4" /> GitHub
                   </a>
                 </div>
               </div>
-            </motion.div>
-          );
-        })}
+            </GlassCard>
+          </motion.div>
+        ))}
       </div>
 
-      {/* Modal remains unchanged */}
       <AnimatePresence>
-        {modalProject && (
-          <motion.div
-            key="modal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50 p-4"
-            onClick={() => setModalProject(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white dark:bg-neutral-900 rounded-xl max-w-5xl w-full grid md:grid-cols-2 gap-6 p-6 relative shadow-xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={() => setModalProject(null)}
-                className="absolute top-4 right-4 text-gray-500 dark:text-gray-300 text-2xl hover:text-gray-800"
-              >
-                &times;
+        {modalProject ? (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-950/80 p-4" onClick={() => setModalProject(null)}>
+            <motion.div initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.95, opacity: 0 }} transition={{ duration: 0.2 }} className="relative w-full max-w-5xl overflow-hidden rounded-[32px] border border-white/20 bg-white/90 p-4 shadow-2xl backdrop-blur-xl dark:bg-slate-900/90 sm:p-6" onClick={(event) => event.stopPropagation()}>
+              <button type="button" aria-label="Close project gallery" onClick={() => setModalProject(null)} className="absolute right-4 top-4 rounded-full border border-slate-300 bg-white p-2 text-slate-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200">
+                <X className="h-5 w-5" />
               </button>
-
-              {/* Modal Image */}
-              <div className="flex flex-col items-center justify-center">
-                <img
-                  src={modalProject.images[currentImageIndex]}
-                  alt={modalProject.title}
-                  className="rounded-lg max-h-[400px] w-full object-contain"
-                />
-                {modalProject.images.length > 1 && (
-                  <div className="flex justify-between items-center mt-4 w-full">
-                    <button
-                      onClick={prevImage}
-                      className="text-sm px-3 py-1 bg-gray-200 dark:bg-neutral-800 rounded hover:bg-gray-300"
-                    >
-                      ⬅ Prev
-                    </button>
-                    <div className="flex gap-1">
-                      {modalProject.images.map((_, idx) => (
-                        <span
-                          key={idx}
-                          onClick={() => setCurrentImageIndex(idx)}
-                          className={`w-2.5 h-2.5 rounded-full cursor-pointer ${
-                            currentImageIndex === idx
-                              ? "bg-blue-600"
-                              : "bg-gray-400 dark:bg-gray-500"
-                          }`}
-                        />
+              <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+                <div>
+                  <img src={modalProject.images[currentImageIndex]} alt={modalProject.title} className="h-[320px] w-full rounded-[24px] object-cover sm:h-[420px]" />
+                  {modalProject.images.length > 1 ? (
+                    <div className="mt-4 flex items-center justify-between">
+                      <button type="button" onClick={() => setCurrentImageIndex((prev) => (prev === 0 ? modalProject.images.length - 1 : prev - 1))} className="rounded-full border border-slate-300 px-3 py-2 text-sm dark:border-slate-700">Previous</button>
+                      <div className="flex gap-2">
+                        {modalProject.images.map((_, index) => (
+                          <button key={`${modalProject.title}-${index}`} type="button" aria-label={`Show image ${index + 1}`} onClick={() => setCurrentImageIndex(index)} className={`h-2.5 w-2.5 rounded-full ${currentImageIndex === index ? "bg-cyan-500" : "bg-slate-300 dark:bg-slate-700"}`} />
+                        ))}
+                      </div>
+                      <button type="button" onClick={() => setCurrentImageIndex((prev) => (prev === modalProject.images.length - 1 ? 0 : prev + 1))} className="rounded-full border border-slate-300 px-3 py-2 text-sm dark:border-slate-700">Next</button>
+                    </div>
+                  ) : null}
+                </div>
+                <div className="flex flex-col justify-between">
+                  <div>
+                    <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-600">Case Study</p>
+                    <h3 className="mt-3 text-3xl font-semibold text-slate-900 dark:text-white">{modalProject.title}</h3>
+                    <p className="mt-4 text-sm leading-8 text-slate-600 dark:text-slate-300">{modalProject.description}</p>
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {modalProject.technologies.map((tech) => (
+                        <span key={tech} className="rounded-full border border-slate-200 bg-white/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-slate-700 dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-200">{tech}</span>
                       ))}
                     </div>
-                    <button
-                      onClick={nextImage}
-                      className="text-sm px-3 py-1 bg-gray-200 dark:bg-neutral-800 rounded hover:bg-gray-300"
-                    >
-                      Next ➡
-                    </button>
                   </div>
-                )}
-              </div>
-
-              {/* Modal Content */}
-              <div className="flex flex-col justify-between space-y-4">
-                <div>
-                  <h2 className="text-3xl font-bold mb-2">
-                    {modalProject.title}
-                  </h2>
-                  <p className="text-sm text-neutral-700 dark:text-neutral-300 mb-4">
-                    {modalProject.description}
-                  </p>
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {modalProject.technologies.map((tech, idx) => (
-                      <span
-                        key={idx}
-                        className="text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300 px-2 py-1 rounded"
-                      >
-                        {tech}
-                      </span>
-                    ))}
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <a href={modalProject.livelink} target="_blank" rel="noreferrer" className="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900">Live Demo</a>
+                    <a href={modalProject.repolink} target="_blank" rel="noreferrer" className="rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 transition dark:border-slate-700 dark:text-slate-200">GitHub</a>
                   </div>
-                </div>
-                <div className="flex gap-3">
-                  <a
-                    href={modalProject.livelink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                  >
-                    Live Demo
-                  </a>
-                  <a
-                    href={modalProject.repolink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 py-2 bg-gray-800 text-white rounded hover:bg-gray-900 transition"
-                  >
-                    GitHub Repo
-                  </a>
                 </div>
               </div>
             </motion.div>
           </motion.div>
-        )}
+        ) : null}
       </AnimatePresence>
-    </div>
+    </section>
   );
 };
 

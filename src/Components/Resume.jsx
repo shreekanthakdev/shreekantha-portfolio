@@ -1,95 +1,51 @@
-import React from "react";
-import resumeImage from "../assets/Shreekanth_Resume.jpg"; // update path if needed
-import { Award } from "lucide-react"; // Optional icon if using lucide-react
+import { motion } from "framer-motion";
+import { Award, Download } from "lucide-react";
+import GlassCard from "../components/GlassCard";
 
 const Resume = () => {
+  const resumePDF = "/resume/Shreekantha_K_MERN.pdf";
+  const resumePreview = "/resume/Shreekantha_K_MERN.jpg";
+
   return (
-    <div className="min-h-screen py-1 px-1 md:px-16 text-white bg-gray-100 dark:bg-gray-900">
-      <h1 className="text-4xl font-bold mb-6 text-center">My Resume</h1>
+    <section className="py-16 sm:py-20">
+      <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mx-auto max-w-5xl text-center">
+        <p className="text-sm font-semibold uppercase tracking-[0.3em] text-cyan-600">Resume</p>
+        <h1 className="mt-3 text-4xl font-semibold text-slate-900 dark:text-white sm:text-5xl">My professional profile</h1>
+        <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">A concise snapshot of my Frontend and MERN development experience, certifications, and strengths.</p>
+      </motion.div>
 
-      <p className="mb-4 text-center max-w-2xl mx-auto">
-        I am a passionate Full Stack Developer with a knack for crafting robust
-        and scalable web applications.
-      </p>
+      <div className="mx-auto mt-10 flex max-w-5xl flex-col gap-8 lg:flex-row">
+        <GlassCard className="flex-1">
+          <a href={resumePDF} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-[24px]" title="Open full resume PDF in a new tab">
+            <img src={resumePreview} alt="Resume preview" className="h-auto w-full rounded-[24px] object-contain" />
+          </a>
+          <a href={resumePDF} target="_blank" rel="noreferrer" download="Shreekantha_Resume" className="mt-6 inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700 dark:bg-white dark:text-slate-900">
+            <Download className="h-4 w-4" /> Download PDF
+          </a>
+        </GlassCard>
 
-      <div className="flex justify-center mb-6">
-        <a
-          href="/Shreekantha_FullStackDeveloper.pdf"
-          target="_blank"
-          download="Shree_Resume"
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow transition duration-300"
-        >
-          📥 Download Resume
-        </a>
-      </div>
-
-      <div className="w-full max-w-5xl mx-auto rounded-xl overflow-hidden shadow-2xl mb-10">
-        <img
-          src={resumeImage}
-          alt="Shreekantha Resume"
-          className="w-full h-auto object-contain"
-        />
-      </div>
-
-      {/* Certifications Section */}
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-2xl font-semibold mb-4 border-b pb-2 flex items-center gap-2">
-          <Award className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-          Certifications
-        </h2>
-
-        <div className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md">
-          <div className="flex items-start gap-4">
-            {/* Optional Oracle Logo */}
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Oracle_logo.svg/512px-Oracle_logo.svg.png"
-              alt="Oracle Logo"
-              className="w-14 h-14 object-contain"
-            />
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                Issued by Oracle – <span className="italic">May 21, 2025</span><br />
-                Credential ID:{" "}
-                <code className="bg-gray-200 dark:bg-gray-700 px-1 py-0.5 rounded">
-                  101666901OCI25AICFA
-                </code>
-              </p>
-              <a
-                href="/eCertificate.pdf"
-                target="_blank"
-                className="inline-block mt-2 text-blue-600 dark:text-blue-400 underline hover:text-blue-800"
-              >
-                📄 View Certificate (PDF)
-              </a>
+        <div className="flex-1 space-y-5">
+          <GlassCard>
+            <div className="flex items-center gap-3">
+              <Award className="h-6 w-6 text-cyan-600" />
+              <h2 className="text-2xl font-semibold text-slate-900 dark:text-white">Certifications</h2>
             </div>
-          </div>
-        </div>
-        <br />
-        <div className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-xl p-6 shadow-md">
-          <div className="flex items-start gap-4">
-            {/* Optional Oracle Logo */}
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                MERN Stack programming
-              </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                Issued by Oracle – <span className="italic">March, 2024</span><br />
-              </p>
-              <a
-                href="/MERN Stack.pdf"
-                target="_blank"
-                className="inline-block mt-2 text-blue-600 dark:text-blue-400 underline hover:text-blue-800"
-              >
-                📄 View Certificate (PDF)
-              </a>
+            <div className="mt-4 space-y-4">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate</h3>
+                <p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">Issued by Oracle — May 21, 2025</p>
+                <a href="/eCertificate.pdf" target="_blank" className="mt-2 inline-flex text-sm font-medium text-cyan-600 hover:text-cyan-700">View certificate</a>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">MERN Stack programming</h3>
+                <p className="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">Issued by Oracle — March 2024</p>
+                <a href="/MERN Stack.pdf" target="_blank" className="mt-2 inline-flex text-sm font-medium text-cyan-600 hover:text-cyan-700">View certificate</a>
+              </div>
             </div>
-          </div>
+          </GlassCard>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

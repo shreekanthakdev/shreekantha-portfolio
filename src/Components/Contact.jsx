@@ -1,75 +1,109 @@
-import React from "react";
 import { motion } from "framer-motion";
+import { CheckCircle2, MapPin, Phone, Send } from "lucide-react";
+import { useState } from "react";
+import emailjs from "emailjs-com";
 import { CONTACT } from "../constants";
-import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import SectionHeading from "../components/SectionHeading";
+import GlassCard from "../components/GlassCard";
 
 const Contact = () => {
+  const [status, setStatus] = useState("idle");
+  const [formData, setFormData] = useState({ name: "", email: "", project: "", message: "" });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((current) => ({ ...current, [name]: value }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setStatus("sending");
+
+    emailjs
+      .send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID || "service_placeholder",
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID || "template_placeholder",
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          project_type: formData.project,
+          message: formData.message,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY || "public_placeholder"
+      )
+      .then(() => {
+        setStatus("success");
+        setFormData({ name: "", email: "", project: "", message: "" });
+      })
+      .catch(() => {
+        setStatus("error");
+      });
+  };
+
   return (
-    <div className="border-b border-neutral-800 px-1 py-1  text-white">
-      <motion.h1
-        whileInView={{ opacity: 1, y: 0 }}
-        initial={{ opacity: 0, y: -50 }}
-        transition={{ duration: 1 }}
-        className="text-center text-4xl font-bold mb-10"
-      >
-        Get in <span className="text-purple-400">Touch</span>
-      </motion.h1>
+    <section className="py-16 sm:py-20" id="contact">
+      <SectionHeading eyebrow="Contact" title="Let’s build something exceptional together" subtitle="I’m open to new opportunities, product collaborations, and ambitious frontend challenges." />
 
-      <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center text-lg">
-        {/* Contact Info Left Side */}
-        <motion.div
-          whileInView={{ opacity: 1, x: 0 }}
-          initial={{ opacity: 0, x: -100 }}
-          transition={{ duration: 1.2 }}
-          className="space-y-6"
-        >
-          {/* Address */}
-          <div className="flex items-start gap-4">
-            <FaMapMarkerAlt className="text-2xl text-purple-400 mt-1" />
-            <p>{CONTACT.address}</p>
-          </div>
-
-          {/* Phone */}
-          <div className="flex items-start gap-4">
-            <FaPhoneAlt className="text-2xl text-purple-400 mt-1" />
-            <p className="hover:text-purple-300 cursor-pointer transition">
-              {CONTACT.phoneNo}
-            </p>
-          </div>
-
-          {/* Email */}
-          <div className="flex items-start gap-4">
-            <FaEnvelope className="text-2xl text-purple-400 mt-1" />
-            <a
-              href={`mailto:${CONTACT.email}`}
-              className="hover:underline hover:text-purple-300 transition"
-            >
-              {CONTACT.email}
-            </a>
-          </div>
+      <div className="mt-12 grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+        <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+          <GlassCard className="space-y-5">
+            <div className="flex items-start gap-3">
+              <div className="rounded-full bg-cyan-500/10 p-2 text-cyan-600 dark:text-cyan-300"><MapPin className="h-5 w-5" /></div>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Location</p>
+                <p className="mt-1 text-slate-700 dark:text-slate-200">{CONTACT.address}</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="rounded-full bg-cyan-500/10 p-2 text-cyan-600 dark:text-cyan-300"><Phone className="h-5 w-5" /></div>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Phone</p>
+                <a href={`tel:${CONTACT.phoneNo}`} className="mt-1 text-slate-700 transition hover:text-cyan-600 dark:text-slate-200">{CONTACT.phoneNo}</a>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="rounded-full bg-cyan-500/10 p-2 text-cyan-600 dark:text-cyan-300"><Send className="h-5 w-5" /></div>
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Email</p>
+                <a href={`mailto:${CONTACT.email}`} className="mt-1 text-slate-700 transition hover:text-cyan-600 dark:text-slate-200">{CONTACT.email}</a>
+              </div>
+            </div>
+          </GlassCard>
         </motion.div>
 
-        {/* Optional Right Side Visual */}
-        <motion.div
-          whileInView={{ opacity: 1, scale: 1 }}
-          initial={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 1.3 }}
-          className="bg-neutral-800 p-6 rounded-2xl shadow-lg text-center"
-        >
-          <h3 className="text-2xl font-semibold mb-4">Let's Connect</h3>
-          <p className="text-neutral-400 mb-4">
-            Feel free to reach out via email or phone. I'm open to
-            collaboration, freelance, or full-time opportunities.
-          </p>
-          <a
-            href={`mailto:${CONTACT.email}`}
-            className="inline-block mt-4 px-6 py-2 bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-lg transition"
-          >
-            Say Hello
-          </a>
+        <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+          <GlassCard>
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                  <span className="mb-2 block">Name</span>
+                  <input required name="name" aria-label="Name" value={formData.name} onChange={handleChange} className="w-full rounded-2xl border border-slate-300 bg-white/80 px-4 py-3 outline-none transition focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900/70" />
+                </label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                  <span className="mb-2 block">Email</span>
+                  <input required type="email" name="email" aria-label="Email" value={formData.email} onChange={handleChange} className="w-full rounded-2xl border border-slate-300 bg-white/80 px-4 py-3 outline-none transition focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900/70" />
+                </label>
+              </div>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                <span className="mb-2 block">Project type</span>
+                <input name="project" aria-label="Project type" value={formData.project} onChange={handleChange} className="w-full rounded-2xl border border-slate-300 bg-white/80 px-4 py-3 outline-none transition focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900/70" />
+              </label>
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-200">
+                <span className="mb-2 block">Message</span>
+                <textarea required name="message" rows="5" aria-label="Message" value={formData.message} onChange={handleChange} className="w-full rounded-2xl border border-slate-300 bg-white/80 px-4 py-3 outline-none transition focus:border-cyan-500 dark:border-slate-700 dark:bg-slate-900/70" />
+              </label>
+              <button type="submit" disabled={status === "sending"} className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-700 disabled:cursor-wait disabled:opacity-70 dark:bg-white dark:text-slate-900">
+                {status === "sending" ? "Sending..." : "Send message"} <Send className="h-4 w-4" />
+              </button>
+              {status === "success" ? (
+                <p className="flex items-center gap-2 text-sm font-medium text-emerald-600"><CheckCircle2 className="h-4 w-4" /> Thanks! Your message is on its way.</p>
+              ) : null}
+              {status === "error" ? <p className="text-sm font-medium text-rose-600">Something went wrong. Please email me directly instead.</p> : null}
+            </form>
+          </GlassCard>
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 
