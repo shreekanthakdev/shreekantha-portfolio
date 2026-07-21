@@ -1,15 +1,15 @@
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import Layout from "./Layout";
-import HomePage from "./Components/HomePage";
-import Projects from "./Components/Projects";
-import Technologies from "./Components/Technologies";
-import About from "./Components/About";
-import Contact from "./Components/Contact";
-import ScrollProgress from "./Components/ScrollProgress";
+import HomePage from "./component/HomePage";
+import Projects from "./component/Projects";
+import Technologies from "./component/Technologies";
+import About from "./component/About";
+import Contact from "./component/Contact";
+import ScrollProgress from "./component/ScrollProgress";
 import { ThemeProvider } from "./context/ThemeContext";
 
-const Resume = lazy(() => import("./Components/Resume"));
+const Resume = lazy(() => import("./component/Resume"));
 
 const App = () => {
   return (

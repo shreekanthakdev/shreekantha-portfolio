@@ -7,7 +7,7 @@ import Resume from "/public/projects/portfolio/Resume.png";
 import Tech from "/public/projects/portfolio/Skills.png";
 import Update from "/public/projects/product-store/Update.page.png";
 import Project from "/public/projects/portfolio/Project.png";
-import { create } from "framer-motion/client";
+import { motion } from "framer-motion";
 
 export const PROJECTS = [
   {

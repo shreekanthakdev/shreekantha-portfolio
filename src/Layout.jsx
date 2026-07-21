@@ -1,24 +1,6 @@
-// import { Outlet } from "react-router-dom";
-// import Navbar from "./Components/Navbar";
-// import Footer from "./Components/Footer";
-
-// const Layout = () => {
-//   return (
-//     <>
-//       <Navbar />
-//       <main className="mt-1">
-//         <Outlet />
-//       </main>
-//       <Footer />
-//     </>
-//   );
-// };
-
-// export default Layout;
-
 import { Outlet } from "react-router-dom";
-import Navbar from "./Components/Navbar";
-import Footer from "./Components/Footer";
+import Navbar from "./component/Navbar";
+import Footer from "./component/Footer";
 
 const Layout = () => {
   return (

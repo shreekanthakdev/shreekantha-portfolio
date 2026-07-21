@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Award, Download } from "lucide-react";
-import GlassCard from "../components/GlassCard";
+import GlassCard from "../component/GlassCard";
 
 const Resume = () => {
   const resumePDF = "/resume/Shreekantha_K_MERN.pdf";
