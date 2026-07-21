@@ -10,7 +10,7 @@ A modern, responsive, and interactive personal portfolio website built with **Re
 
 ## 📸 Preview
 
-![Portfolio Preview](./public/preview.png)
+![Portfolio Preview](./public/projects/portfolio/Hero.png)
 
 > Replace `preview.png` with a screenshot of your portfolio.
 
