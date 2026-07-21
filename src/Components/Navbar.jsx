@@ -43,7 +43,7 @@ const Navbar = () => {
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
-          <a href="https://github.com/Shreekantha45" target="_blank" rel="noreferrer" aria-label="GitHub" className="rounded-full p-2 text-slate-700 transition hover:bg-slate-200 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
+          <a href="https://github.com/shreekanthakdev" target="_blank" rel="noreferrer" aria-label="GitHub" className="rounded-full p-2 text-slate-700 transition hover:bg-slate-200 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">
             <FaGithub className="text-lg" />
           </a>
           <a href="https://www.linkedin.com/in/shreekantha-k-106088253" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="rounded-full p-2 text-slate-700 transition hover:bg-slate-200 hover:text-slate-900 dark:text-slate-200 dark:hover:bg-slate-800">

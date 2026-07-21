@@ -1,11 +1,11 @@
 import Hero from "/public/projects/portfolio/Hero.png";
 import About from "/public/projects/portfolio/About.png";
 import Contact from "/public/projects/portfolio/Contact.png";
-import Create from "/public/projects/Create.page.png";
-import Home from "/public/projects/Home.page.png";
+import Create from "/public/projects/product-store/Create.page.png";
+import Home from "/public/projects/product-store/Home.page.png";
 import Resume from "/public/projects/portfolio/Resume.png";
 import Tech from "/public/projects/portfolio/Skills.png";
-import Update from "/public/projects/Update.page.png";
+import Update from "/public/projects/product-store/Update.page.png";
 import Project from "/public/projects/portfolio/Project.png";
 import { create } from "framer-motion/client";
 
@@ -18,7 +18,7 @@ export const PROJECTS = [
 
     technologies: ["HTML", "JavaScript", "React", "Tailwind"],
     livelink: "https://react-portfilo-shree.vercel.app/",
-    repolink: "https://github.com/Shreekantha45/React-portfilo-shree",
+    repolink: "https://github.com/shreekanthakdev/shreekantha-portfolio",
   },
   {
     title: "MERN-Stack E-commerce Product Management Platform",

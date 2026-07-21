@@ -6,7 +6,7 @@ import Projects from "./Components/Projects";
 import Technologies from "./Components/Technologies";
 import About from "./Components/About";
 import Contact from "./Components/Contact";
-import ScrollProgress from "./components/ScrollProgress";
+import ScrollProgress from "./Components/ScrollProgress";
 import { ThemeProvider } from "./context/ThemeContext";
 
 const Resume = lazy(() => import("./Components/Resume"));
