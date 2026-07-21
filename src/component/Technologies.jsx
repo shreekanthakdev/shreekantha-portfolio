@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { FaGithub, FaNodeJs } from "react-icons/fa";
 import { RiReactjsLine, RiTailwindCssFill } from "react-icons/ri";
 import { SiExpress, SiMongodb } from "react-icons/si";
-import SectionHeading from "./SectionHeading";
+import SectionHeading from "../component/SectionHeading";
 import GlassCard from "./GlassCard";
 
 const categories = [
