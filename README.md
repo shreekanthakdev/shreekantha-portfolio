@@ -4,7 +4,7 @@ A modern, responsive, and interactive personal portfolio website built with **Re
 
 🔗 **Live Demo:** https://your-portfolio.vercel.app
 
-📂 **GitHub Repository:** https://github.com/yourusername/shreekantha-portfolio
+📂 **GitHub Repository:** https://github.com/shreekanthakdev/shreekantha-portfolio
 
 ---
 
